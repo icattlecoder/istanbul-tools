@@ -378,11 +378,15 @@ func (eth *ethereum) Host() string {
 		log.Error("Invalid validator pod name")
 		return ""
 	}
-	name := "validator-svc-" + eth.chart.Name()[index+1:]
+	name := "validator-" + eth.chart.Name()[index+1:]
 	svc, err := eth.k8sClient.CoreV1().Services(defaultNamespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		log.Error("Failed to find service", "svc", name, "err", err)
 		return ""
 	}
-	return svc.Status.LoadBalancer.Ingress[0].IP
+	if err != nil {
+		log.Error("Failed to find service", "svc", name, "err", err)
+		return ""
+	}
+	return svc.Spec.ClusterIP
 }

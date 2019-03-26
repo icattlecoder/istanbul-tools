@@ -41,7 +41,7 @@ const (
 
 func GenerateIPs(num int) (ips []string) {
 	for i := 0; i < num; i++ {
-		ips = append(ips, fmt.Sprintf("10.0.1.%d", i+2))
+		ips = append(ips, fmt.Sprintf("10.96.0.%d", i+2))
 	}
 
 	return ips
