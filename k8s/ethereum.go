@@ -135,6 +135,7 @@ func (eth *ethereum) ConsensusMonitor(errCh chan<- error, quit chan struct{}) {
 
 func (eth *ethereum) WaitForProposed(expectedAddress common.Address, timeout time.Duration) error {
 	cli := eth.NewClient()
+	defer cli.Close()
 
 	subCh := make(chan *ethtypes.Header)
 
@@ -253,6 +254,7 @@ func (eth *ethereum) WaitForNoBlocks(num int, duration time.Duration) error {
 	if client == nil {
 		return errors.New("failed to retrieve client")
 	}
+	defer client.Close()
 
 	timeout := time.After(duration)
 	ticker := time.NewTicker(time.Millisecond * 500)
@@ -283,6 +285,7 @@ func (eth *ethereum) WaitForBalances(addrs []common.Address, duration ...time.Du
 	if client == nil {
 		return errors.New("failed to retrieve client")
 	}
+	defer client.Close()
 
 	var t time.Duration
 	if len(duration) > 0 {

@@ -229,8 +229,12 @@ func (mc *metricChain) handleNewHeadEvent() {
 				blockCh := make(chan *ethtypes.Block, len(mc.eths))
 				ctx, cancel := context.WithCancel(context.Background())
 				for _, eth := range mc.eths {
-					cli := eth.NewClient()
-					go getBlock(ctx, cli, header.Hash(), blockCh)
+					eth := eth
+					go func() {
+						cli := eth.NewClient()
+						defer cli.Close()
+						getBlock(ctx, cli, header.Hash(), blockCh)
+					}()
 				}
 
 				// wait for right block

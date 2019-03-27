@@ -17,7 +17,7 @@ replicaCount: 1
 image:
   repository: quay.io/amis/geth
   tag: istanbul_develop
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 ethereum:
   identity: ""

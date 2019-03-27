@@ -173,6 +173,7 @@ func runTests(numberOfValidators int, gaslimit int, txpoolSize int, sendRate int
 					Expect(ok).To(BeTrue())
 
 					client := geth.NewClient()
+					defer client.Close()
 					Expect(client).NotTo(BeNil())
 
 					accounts := transactor.AccountKeys()[preloadAccounts:]
